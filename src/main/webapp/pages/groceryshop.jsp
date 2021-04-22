@@ -206,7 +206,7 @@ span {
 	</p>
 	<div class="item-list">
 		<div class="container">
-			<spring:form commandName="items" action="submitShoppingForm"
+			<spring:form commandName="items" action="submitShoppingForm1"
 				method="post">
 				<div class="row items">
 					<c:forEach items="${items}" var="item">

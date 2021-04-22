@@ -134,13 +134,7 @@ public class ItemController {
 		return mandv;
 	}
 	@RequestMapping(value="edittedditem", method=RequestMethod.POST)
-	public ModelAndView submitshopedit(ModelAndView mandv,HttpServletRequest req,ItemDetailsDTO items ) {
-		
-		
-	System.out.println(items.getItemDesc());
-		
-	
-		
+	public ModelAndView submitshopedit(ModelAndView mandv,HttpServletRequest req,ItemDetailsDTO items ) {		
 		
 		adminService.editItem(items);
 		
@@ -157,23 +151,5 @@ public class ItemController {
 	}
 	
 	
-	
-/*	@RequestMapping(value="EditDelete", method=RequestMethod.GET)
-	public ModelAndView EditDelete(ModelAndView mandv) {
-		List<Item> items=shoppingService.dispallitems("jewellery");
-		mandv.addObject("items",items);
-		
-		mandv.setViewName("welcomeadmin");
-		return mandv;
-	}
-	@RequestMapping(value="shop1delete", method=RequestMethod.GET)
-	public ModelAndView loadshop1delete(ModelAndView mandv) {
-		List<Item> items=shoppingService.dispallitems("jewellery");
-		mandv.addObject("items",items);
-		
-		mandv.setViewName("welcomeadmin");
-		return mandv;
-	}
-	*/
 }
 

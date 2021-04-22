@@ -78,32 +78,6 @@ public class ManagerController {
 	@RequestMapping("getcustomer")
 	public ModelAndView showcustomer(ModelAndView mandv,HttpServletRequest req) {
 		
-		/*
-		List<ItemTransactionDTO> itemtrancs=managerService.getAllReports();
-		List<ItemDetailsDTO> itemlist=new ArrayList<>();
-		List<InvoiceMasterDTO> invoicelist=new ArrayList<>();
-		ListIterator iterator2 = itemtrancs.listIterator();
-		ItemTransactionDTO singletrans=new ItemTransactionDTO();
-		ItemDetailsDTO singleitem=new ItemDetailsDTO();
-		InvoiceMasterDTO singleinvoice=new InvoiceMasterDTO();
-			while(iterator2.hasNext()) {
-			singletrans=(ItemTransactionDTO)iterator2.next();
-			singleinvoice= singletrans.getInvoiceMasterDTO();
-			singleitem=singletrans.getItemDetailsDTO();
-			invoicelist.add(singleinvoice);
-			itemlist.add(singleitem);
-			
-
-
-			}
-
-		mandv.addObject("itemtrancs",itemtrancs);
-		mandv.addObject("invoices",invoicelist);
-		mandv.addObject("items",itemlist);
-		mandv.setViewName("invoicesearch");
-		return mandv;	
-		*/
-		
 		String id=req.getParameter("id");
 		
 		List<ItemTransactionDTO> translist=managerService.getReportByCustomerID(Integer.parseInt(id));
@@ -137,32 +111,6 @@ public class ManagerController {
 	}
 	@RequestMapping("getinvoice")
 	public ModelAndView showinvoice(ModelAndView mandv,HttpServletRequest req) {
-		
-		/*
-		List<ItemTransactionDTO> itemtrancs=managerService.getAllReports();
-		List<ItemDetailsDTO> itemlist=new ArrayList<>();
-		List<InvoiceMasterDTO> invoicelist=new ArrayList<>();
-		ListIterator iterator2 = itemtrancs.listIterator();
-		ItemTransactionDTO singletrans=new ItemTransactionDTO();
-		ItemDetailsDTO singleitem=new ItemDetailsDTO();
-		InvoiceMasterDTO singleinvoice=new InvoiceMasterDTO();
-			while(iterator2.hasNext()) {
-			singletrans=(ItemTransactionDTO)iterator2.next();
-			singleinvoice= singletrans.getInvoiceMasterDTO();
-			singleitem=singletrans.getItemDetailsDTO();
-			invoicelist.add(singleinvoice);
-			itemlist.add(singleitem);
-			
-
-
-			}
-
-		mandv.addObject("itemtrancs",itemtrancs);
-		mandv.addObject("invoices",invoicelist);
-		mandv.addObject("items",itemlist);
-		mandv.setViewName("invoicesearch");
-		return mandv;	
-		*/
 		
 		String id=req.getParameter("id");
 		

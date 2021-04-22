@@ -17,7 +17,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.model.CompKey1;
 import com.model.InvoiceMasterDTO;
 import com.model.ItemTransactionDTO;
 

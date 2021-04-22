@@ -5,41 +5,30 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.model.ItemDetailsDTO;
-import com.model.OrderDetails;
-import com.model.SmsPojo;
 import com.model.UserDetailsDTO;
-import com.razorpay.Order;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
 import com.service.EmailService;
-import com.service.EmailServiceImpl;
 import com.service.InvoiceService;
 import com.service.ShoppingService;
 import com.service.SmsService;
 import com.service.UserService;
 import com.service.XMLService;
 import com.service.XMLToExcelService;
-import com.service.XMLToExcelServiceImpl;
 import com.service.XMLToPdfService;
 
 @Controller
@@ -109,17 +98,6 @@ public class InvoiceController {
 	@Autowired
 	SmsService smsService;
 	
-//	@RequestMapping(value="payment", method=RequestMethod.GET)
-//	public ModelAndView test(ModelAndView mandv,Model model) throws RazorpayException {
-//	OrderDetails orderDetails = new OrderDetails();
-//	model.addAttribute("orderDetails", orderDetails);
-//		System.out.println("home called");
-//		mandv.addObject("msg","df");
-//		mandv.setViewName("payment");
-//		return mandv;
-//		
-//	}
-	
 	@RequestMapping(value="payment", method=RequestMethod.GET)
 	public ModelAndView payment(ModelAndView mandv,HttpServletRequest request,Model model) {
 		
@@ -127,39 +105,12 @@ public class InvoiceController {
 		return mandv;
 	}
 	
-//	@PostMapping(value="order")
-//	public ModelAndView createOrder(@ModelAttribute("amount") OrderDetails orderDetails,ModelAndView mandv) throws RazorpayException {
-//		
-//		RazorpayClient razorpayClient = new RazorpayClient("rzp_test_uwFPahVNP7SemQ", "6REjsUiIJAWvnQvIRf40BXA7");
-//		JSONObject options = new JSONObject();
-////		OrderDetails order_info = new OrderDetails();
-//
-//		System.out.println(orderDetails);
-//		int amount=Integer.parseInt(orderDetails.getAmount());
-//		System.out.println(amount);
-//		options.put("amount",amount);
-//		options.put("currency", "INR");
-//		options.put("receipt", "txn_123456");
-//		Order order = razorpayClient.Orders.create(options);
-//		System.out.println(order);
-//		
-//		mandv.addObject("amt",amount);
-//		mandv.addObject("order_id",order.get("id"));
-//		mandv.setViewName("paid");
-//		return mandv;
-//		
-//
-//		
-//	}
-//	
 	@RequestMapping(value="paymentSuccess", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView paymentSuccess(ModelAndView mandv,HttpServletRequest request) {
-		
-		
+			
 		HttpSession session = request.getSession();
 		String uname = (String)session.getAttribute("uname");
 
-		UserDetailsDTO user = userService.getUser(uname);
 		HashMap<ItemDetailsDTO,Integer> items = (HashMap<ItemDetailsDTO,Integer>)session.getAttribute("items"); 
 		
 		invoiceService.insertInvoices(uname,items,session);
@@ -218,7 +169,6 @@ public class InvoiceController {
 	@RequestMapping(value="sms", method=RequestMethod.GET)
 	public ModelAndView generatesms(ModelAndView mandv,HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		//String xml = (String)session.getAttribute("xml");
 		
 		String userName = (String)session.getAttribute("uname");
 		UserDetailsDTO user = userService.getUser(userName);
@@ -228,8 +178,6 @@ public class InvoiceController {
 		
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		try {
-			System.out.println("+++++++++++++++++");
-			System.out.println("+++++++++++++++++");
 		    HttpPost req = new HttpPost("http://localhost:8080/sms");
 		    
 		    StringEntity params = new StringEntity("{\"to\":\"+91"+phone+"\",\"message\":\"Your invoice total is "+total+" rs\"}");

@@ -1,6 +1,5 @@
 package com.controller;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +67,9 @@ public class LoginController {
 				HttpSession session = request.getSession();
 				session.setAttribute("uname", user.getUname());
 				session.setAttribute("uid", uid);
+				session.setAttribute("cartUpdateFlag", false);
+				
+				userService.updateLogin(user.getUname(), 0);
 				
 				HashMap<Integer,Integer> selecteditems=new HashMap<Integer, Integer>();
 				session.setAttribute("selecteditems", selecteditems);
@@ -97,7 +99,7 @@ public class LoginController {
 					
 					mandv.addObject("user",user);
 					
-					mandv.setViewName("welcome");
+					mandv.setViewName("redirect:/login/home");
 					return mandv;
 				default:
 					return null;
@@ -119,35 +121,35 @@ public class LoginController {
 		return "redirect:/register/loadForm";
 	}
 	
-	/* @RequestMapping(value="logout", method= {RequestMethod.GET,RequestMethod.POST})
+	 @RequestMapping(value="logout", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView logout(ModelAndView mandv,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String uname = (String)session.getAttribute("uname");
-		loginService.updateFlag(uname, 0);
+		userService.updateLogin(uname, 0);
 		//session.invalidate();
 		mandv.setViewName("redirect:/login/loadForm");
 		return mandv;
 	}
-	*/
+	
 	
 	@RequestMapping(value="shopping1", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView shopping(HttpServletRequest request, ModelAndView mandv) {
 		
-		mandv.setViewName("redirect:/shopping/shop1");
+		mandv.setViewName("redirect:/shopping/shopping1");
 		return mandv;
 	}
 	
 	@RequestMapping(value="shopping2", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView shopping2(HttpServletRequest request, ModelAndView mandv) {
 		
-		mandv.setViewName("redirect:/shopping2/shop2");
+		mandv.setViewName("redirect:/shopping/shopping2");
 		return mandv;
 	}
 	
 	@RequestMapping(value="shopping3", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView shopping3(HttpServletRequest request, ModelAndView mandv) {
 		
-		mandv.setViewName("redirect:/shopping3/shop3");
+		mandv.setViewName("redirect:/shopping/shopping3");
 		return mandv;
 	}
 	
@@ -158,73 +160,10 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="cart", method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView showCart(ModelAndView mandv,HttpServletRequest request){
-		HttpSession session = request.getSession();
-		
-		HashMap<Integer,Integer> selecteditems =(HashMap<Integer,Integer>)session.getAttribute("selecteditems");
-		
-		HashMap<ItemDetailsDTO,Integer> finalItems = new HashMap<ItemDetailsDTO, Integer>(); 
-		for (Map.Entry<Integer, Integer> set : selecteditems.entrySet()) {
-			String itemName = shoppingService.getItemName(set.getKey());
-			ItemDetailsDTO item = shoppingService.getItemByName(itemName);
-			finalItems.put(item, set.getValue());
-		}
-		session.setAttribute("items", finalItems);
-		
-		
-		
-		String uname = (String)session.getAttribute("uname");
-		
-		Integer uid = (Integer)session.getAttribute("uid");
-		Double total = shoppingService.getTotal(finalItems);
-		session.setAttribute("total", total);
-		
-		mandv.addObject("date",LocalDate.now());
-		mandv.addObject("uname",uname);
-		mandv.addObject("uid",uid);
-		mandv.addObject("total",total);
-		mandv.addObject("items",finalItems);
-		mandv.setViewName("cart"); 
-		return mandv; 
-	}
-	
-	
-	@RequestMapping(value="confirmorder", method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView confirmOrder(ModelAndView mandv,HttpServletRequest request) {
-		mandv.setViewName("redirect:/invoice/payment");
+	public ModelAndView showCart(ModelAndView mandv){
+		mandv.setViewName("redirect:/cart/showCart");
 		return mandv;
 	}
 	
-	
-	@RequestMapping(value="remove", method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView remove(ModelAndView mandv,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-	
-		int id=Integer.parseInt(request.getParameter("selected"));
-		System.out.println(id);
-		
-		HashMap<ItemDetailsDTO,Integer> finalItems = (HashMap<ItemDetailsDTO,Integer>)session.getAttribute("items");
-		
-		//finalItems.remove(itemDetailsDAO.getItemDetails(id));
-		String itemName = shoppingService.getItemName(id);
-		finalItems.remove(shoppingService.getItemByName(itemName));
-		session.setAttribute("items", finalItems);
-		
-		
-		
-		String uname = (String)session.getAttribute("uname");
-		Integer uid = (Integer)session.getAttribute("uid");
-		Double total = shoppingService.getTotal(finalItems);
-		session.setAttribute("total", total);
-		
-		mandv.addObject("date",LocalDate.now());
-		mandv.addObject("uname",uname);
-		mandv.addObject("uid",uid);
-		mandv.addObject("total",total);
-		mandv.addObject("items",finalItems);
-		mandv.setViewName("invoice"); 
-		return mandv; 
-
-	}
 	
 }

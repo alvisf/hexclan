@@ -25,7 +25,6 @@ import com.dao.ItemDetailsDAO;
 import com.dao.ItemTransactionDAO;
 import com.dao.ItemTransactionDAOImpl;
 import com.dao.UserDetailsDAO;
-import com.model.CompKey1;
 import com.model.InvoiceMasterDTO;
 import com.model.ItemDetailsDTO;
 import com.model.ItemTransactionDTO;
@@ -67,14 +66,11 @@ public class InvoiceServiceImpl implements InvoiceService,Cloneable{
 		invoiceMasterDAO.insertInvoice(invoice);
 		
 	
-//		Set<ItemTransactionDTO> transactions = new HashSet<ItemTransactionDTO>();
 		for(ItemDetailsDTO item:items.keySet()) {
 			ItemTransactionDTO transac = new ItemTransactionDTO();
 			
 			transac.setInvoiceMasterDTO(invoice);
-			/*
-			 * 
-			 */
+
 			int quantity = items.get(item);
 			transac.setItemQuantity(quantity);
 			
