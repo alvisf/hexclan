@@ -13,9 +13,9 @@ import com.twilio.type.PhoneNumber;
 	public class SmsService {
 
 	    
-	    private final String ACCOUNT_SID ="ACdab20ec010881c0f6f2b21548bf03bf9";
+	    private final String ACCOUNT_SID ="'''''''''''''''''''''''''''''''";
 
-	    private final String AUTH_TOKEN = "cfff8e60cab3ed678a164c0d443d1f71";
+	    private final String AUTH_TOKEN = "'''''''''''''''''''''''''''''''";
 
 	    private final String FROM_NUMBER = "+18323766309";
 
