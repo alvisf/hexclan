@@ -61,6 +61,7 @@ public class LoginController {
 		if(userService.checkUser(user.getUname(),user.getUpass())){
 			if(userService.checkLogin(user.getUname())) {
 				user = userService.getUser(user.getUname());
+				
 				String role=user.getRole();
 				int uid=user.getUid();
 				user.setUid(uid);
@@ -69,8 +70,7 @@ public class LoginController {
 				session.setAttribute("uid", uid);
 				session.setAttribute("cartUpdateFlag", false);
 				
-				userService.updateLogin(user.getUname(), 0);
-				
+				userService.updateLogin(user.getUname(), 1);
 				HashMap<Integer,Integer> selecteditems=new HashMap<Integer, Integer>();
 				session.setAttribute("selecteditems", selecteditems);
 				
@@ -82,7 +82,7 @@ public class LoginController {
 				List<ItemDetailsDTO> items=shoppingService.allItems();
 					mandv.addObject("user",user);
 					mandv.addObject("items",items);
-					mandv.setViewName("adminpage");
+					mandv.setViewName("redirect:/itemcontrol/home");
 					return mandv;
 					
 				case "manager":

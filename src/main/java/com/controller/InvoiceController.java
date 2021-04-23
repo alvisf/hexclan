@@ -189,42 +189,16 @@ public class InvoiceController {
 		}catch(Exception e) {e.printStackTrace();return null;}
 	}
 	
-	@RequestMapping(value="logout", method=RequestMethod.POST)
+	@RequestMapping(value="logout", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView logout(ModelAndView mandv,HttpServletRequest request) {
-		HttpSession session = request.getSession();
 		mandv.setViewName("redirect:/login/logout");
 		return mandv;
 	}
 	
-	@RequestMapping(value="cart", method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView showCart(ModelAndView mandv,HttpServletRequest request){
-		HttpSession session = request.getSession();
-		
-		HashMap<Integer,Integer> selecteditems =(HashMap<Integer,Integer>)session.getAttribute("selecteditems");
-		
-		HashMap<ItemDetailsDTO,Integer> finalItems = new HashMap<ItemDetailsDTO, Integer>(); 
-		for (Map.Entry<Integer, Integer> set : selecteditems.entrySet()) {
-			String itemName = shoppingService.getItemName(set.getKey());
-			ItemDetailsDTO item = shoppingService.getItemByName(itemName);
-			finalItems.put(item, set.getValue());
-		}
-		session.setAttribute("items", finalItems);
-		
-		
-		
-		String uname = (String)session.getAttribute("uname");
-		
-		Integer uid = (Integer)session.getAttribute("uid");
-		Double total = shoppingService.getTotal(finalItems);
-		session.setAttribute("total", total);
-		
-		mandv.addObject("date",LocalDate.now());
-		mandv.addObject("uname",uname);
-		mandv.addObject("uid",uid);
-		mandv.addObject("total",total);
-		mandv.addObject("items",finalItems);
-		mandv.setViewName("cart"); 
-		return mandv; 
+	@RequestMapping(value="home", method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView home(ModelAndView mandv,HttpServletRequest request) {
+		mandv.setViewName("redirect:/login/home");
+		return mandv;
 	}
 
 	public final InvoiceService getInvoiceService() {

@@ -87,6 +87,13 @@ public class InvoiceServiceImpl implements InvoiceService,Cloneable{
 		
 		session.setAttribute("invNo", invoice.getInvNo());
 	}
+	
+	@Override
+	@Transactional
+	public List<InvoiceMasterDTO> getAllInvoices(){
+		List<InvoiceMasterDTO> invoices = invoiceMasterDAO.getInvoiceMasterAll();
+		return invoices;
+	}
 		
 //		invoice.setTransactions(transactions);
 	

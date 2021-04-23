@@ -28,7 +28,7 @@ public class InvoiceMasterDTO implements Serializable,Cloneable{
 	@JoinColumn(name = "customerID",nullable = false)
 	private UserDetailsDTO userDetailsDTO;
 	
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY,mappedBy = "invoiceMasterDTO",orphanRemoval=true)
+	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER,mappedBy = "invoiceMasterDTO",orphanRemoval=true)
 	private Set<ItemTransactionDTO> transactions;
 	
 	private static InvoiceMasterDTO invoiceMasterDTO;

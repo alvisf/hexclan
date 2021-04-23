@@ -102,7 +102,7 @@ public class XMLServiceImpl implements XMLService,Cloneable{
 		xml.append("</invoice>");
 		
 		try {
-			File output = new File(path2+ "/src/main/webapp/invoice.xml");
+			File output = new File(path2+ "\\src\\main\\webapp\\invoice.xml");
 			System.out.println(output);
 			if(output.createNewFile()) {
 				fileWriter = new FileWriter(output);

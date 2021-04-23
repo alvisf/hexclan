@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.UserDAO;
+import com.dao.UserDetailsDAO;
 import com.model.UserDetailsDTO;
 
 
@@ -14,6 +15,9 @@ import com.model.UserDetailsDTO;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDao;
+	
+	@Autowired
+	private UserDetailsDAO userDetailsDao;
 	
 	public final UserDAO getUserDao() {
 		return userDao;
@@ -64,7 +68,7 @@ public boolean checkUser(String uname, String upass) {
 public void updateLogin(String uname,int flag) {
 	UserDetailsDTO user=userDao.getUserByName(uname);
 	if(user!=null) {
-		user.setFlag(flag);
+		userDetailsDao.setFlag(user, flag);
 	}
 
 

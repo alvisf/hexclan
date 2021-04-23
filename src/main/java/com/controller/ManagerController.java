@@ -2,6 +2,7 @@ package com.controller;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -11,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model.InvoiceMasterDTO;
 import com.model.ItemDetailsDTO;
 import com.model.ItemTransactionDTO;
 import com.model.UserDetailsDTO;
+import com.service.InvoiceService;
 import com.service.ManagerService;
 import com.service.ShoppingService;
 
@@ -25,6 +28,9 @@ import com.service.ShoppingService;
 public class ManagerController {
 	@Autowired
 	private ManagerService managerService;
+	
+	@Autowired
+	private InvoiceService invoiceService;
 	
 	public ManagerService getManagerService() {
 		return managerService;
@@ -140,6 +146,52 @@ public class ManagerController {
 		mandv.addObject("custid",custid);
 		mandv.addObject("itemtrancs",translist);
 		mandv.setViewName("invoicesearch");
+		return mandv;
+	}
+	
+	@RequestMapping("dateinvoice")
+	public ModelAndView date(ModelAndView mandv,HttpServletRequest req) {
+		
+		mandv.setViewName("date");
+		return mandv;
+	}
+	
+	@RequestMapping("getdateinvoice")
+	public ModelAndView getdateinvoice(ModelAndView mandv,HttpServletRequest req) {
+		
+		String fromdate  = req.getParameter("startdate");
+		String todate  = req.getParameter("enddate");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startLdate = LocalDate.parse(fromdate, formatter);
+		LocalDate endLdate = LocalDate.parse(todate, formatter);
+		
+		
+		
+		List<InvoiceMasterDTO> invoices = invoiceService.getAllInvoices();
+		
+		List<ItemTransactionDTO> rangetransset = new ArrayList<ItemTransactionDTO>(); 
+		
+		for(InvoiceMasterDTO invoice : invoices) {
+			LocalDate invoicedate = invoice.getInvDate();
+			if(invoicedate.isAfter(startLdate) && invoicedate.isBefore(endLdate)) {
+				
+				for(ItemTransactionDTO transaction : invoice.getTransactions()) {
+					rangetransset.add(transaction);
+				}
+			}
+		}
+		
+		System.out.println(rangetransset);
+		mandv.addObject("rangetransset",rangetransset);
+		
+		mandv.setViewName("date");
+		return mandv;
+	}
+	
+	@RequestMapping(value="logout", method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView logout(ModelAndView mandv,HttpServletRequest request) {
+		mandv.setViewName("redirect:/login/logout");
 		return mandv;
 	}
 	

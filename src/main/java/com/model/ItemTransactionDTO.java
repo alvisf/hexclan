@@ -31,7 +31,7 @@ public class ItemTransactionDTO implements Serializable,Cloneable{
 	private InvoiceMasterDTO invoiceMasterDTO;
 	
 	//@MapsId("itemNo")
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="itemNo")
 	private ItemDetailsDTO itemDetailsDTO;
 	

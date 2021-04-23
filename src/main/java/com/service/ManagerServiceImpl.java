@@ -35,11 +35,12 @@ public List<ItemTransactionDTO> getReportByInvno(int invno) {
 	InvoiceMasterDTO invoice=reportDao.getInvoicMasterByInvoice(invno);
 	List<ItemTransactionDTO> trans= reportDao.getItemTransactionByInvoice(invoice);
 	ListIterator iterator2 = trans.listIterator();
-	ItemTransactionDTO itemtrans=new ItemTransactionDTO();
-	ItemDetailsDTO items=new ItemDetailsDTO();
+	//ItemTransactionDTO itemtrans=new ItemTransactionDTO();
+	//ItemDetailsDTO items=new ItemDetailsDTO();
 		while(iterator2.hasNext()) {
-		itemtrans=(ItemTransactionDTO)iterator2.next();
-		items=itemtrans.getItemDetailsDTO();
+		ItemTransactionDTO itemtrans=(ItemTransactionDTO)iterator2.next();
+		ItemDetailsDTO items=itemtrans.getItemDetailsDTO();
+		System.out.println(items);
 		System.out.println("Name of product"+" "+ items.getItemDesc());
 		System.out.println("Price of product"+" "+ items.getItemPrice());
 		invoice=itemtrans.getInvoiceMasterDTO();

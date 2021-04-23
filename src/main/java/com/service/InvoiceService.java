@@ -13,4 +13,5 @@ import com.model.UserDetailsDTO;
 
 public interface InvoiceService {
 	public void insertInvoices(String uname,HashMap<ItemDetailsDTO,Integer> items,HttpSession session);
+	public List<InvoiceMasterDTO> getAllInvoices();
 }

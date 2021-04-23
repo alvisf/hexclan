@@ -111,6 +111,14 @@ public class ItemDetailsDTO implements Serializable,Cloneable{
 		this.stockQuantity = stockQuantity;
 	}
 
+	public Set<ItemTransactionDTO> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Set<ItemTransactionDTO> transactions) {
+		this.transactions = transactions;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

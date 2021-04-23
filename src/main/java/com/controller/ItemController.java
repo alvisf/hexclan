@@ -1,6 +1,9 @@
 package com.controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.model.InvoiceMasterDTO;
 import com.model.ItemDetailsDTO;
+import com.model.ItemTransactionDTO;
+import com.model.UserDetailsDTO;
 import com.service.AdminService;
+import com.service.ManagerService;
 import com.service.ShoppingService;
 
 @Controller
@@ -24,6 +31,9 @@ public class ItemController {
 	
 	@Autowired
 	private ShoppingService shoppingService;
+	
+	@Autowired
+	private ManagerService managerService;
 		
 	public final ShoppingService getShoppingService() {
 		return shoppingService;
@@ -35,32 +45,14 @@ public class ItemController {
 	@Autowired
 	private AdminService adminService;
 	
-
-	@RequestMapping(value="shop1", method=RequestMethod.GET)
-	public ModelAndView loadshop1(ModelAndView mandv) {
-		List<ItemDetailsDTO> items=shoppingService.dispallitems("jewellery");
-		mandv.addObject("items",items);
-		
-		mandv.setViewName("adminshop");
-		return mandv;
-	}
-	@RequestMapping(value="shop2", method=RequestMethod.GET)
-	public ModelAndView loadshop2(ModelAndView mandv) {
-		List<ItemDetailsDTO> items=shoppingService.dispallitems("grocery");
-		mandv.addObject("items",items);
-		
-		mandv.setViewName("adminshop");
-		return mandv;
-	}
-	@RequestMapping(value="shop3", method=RequestMethod.GET)
-	public ModelAndView loadshop3(ModelAndView mandv) {
-		List<ItemDetailsDTO> items=shoppingService.dispallitems("sports");
-		mandv.addObject("items",items);
-		
-		mandv.setViewName("adminshop");
-		return mandv;
-	}
-	@RequestMapping(value="add", method=RequestMethod.POST)
+	 @RequestMapping(value="home", method= {RequestMethod.GET,RequestMethod.POST})
+		public ModelAndView home(ModelAndView mandv,HttpServletRequest request) {
+		 	mandv.setViewName("redirect:/itemcontrol/modifyitem");
+		 	return mandv;
+		 	
+	 	}
+	
+	@RequestMapping(value="add", method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView loadshopadd(ModelAndView mandv,Model model) {
 		ItemDetailsDTO item=new ItemDetailsDTO();
 		model.addAttribute("item",item);
@@ -111,8 +103,6 @@ public class ItemController {
 	public ModelAndView submitshopdelete(ModelAndView mandv,HttpServletRequest req ) {
 		String id=req.getParameter("selected");
 		
-		System.out.println(id);
-		
 		adminService.deleteItem(Integer.parseInt(id));
 		List<ItemDetailsDTO> items=shoppingService.allItems();
 		mandv.addObject("items",items);
@@ -148,6 +138,79 @@ public class ItemController {
 	public ModelAndView logout(ModelAndView mandv,HttpServletRequest request) {
 		mandv.setViewName("redirect:/login/logout");
 		return mandv;
+	}
+	
+	@RequestMapping(value="modifyitem", method=RequestMethod.GET)
+	public ModelAndView modifyitem(ModelAndView mandv,Model model) {
+		List<ItemDetailsDTO> items=shoppingService.allItems();
+		mandv.addObject("items",items);
+		mandv.setViewName("adminpage");
+		return mandv;
+	}
+	@RequestMapping(value="modifybillitem", method=RequestMethod.POST)
+	public ModelAndView modifybillitem(ModelAndView mandv,Model model,HttpServletRequest req) {
+		
+		String id=req.getParameter("id");
+	
+		//System.out.println(id);
+		String qty=req.getParameter(id);
+		//System.out.println(qty);
+		adminService.updateqty(Integer.parseInt(id), Integer.parseInt(qty));
+		mandv.setViewName("modifybill");
+		return mandv;
+	}
+	@RequestMapping(value="modifiedbillitem", method=RequestMethod.GET)
+	public ModelAndView modifiedbillitem(ModelAndView mandv,Model model) {
+		List<ItemDetailsDTO> items=shoppingService.allItems();
+		mandv.addObject("items",items);
+		mandv.setViewName("adminpage");
+		return mandv;
+	}
+	@RequestMapping(value="deletebilltem", method=RequestMethod.POST)
+	public ModelAndView deletebillitem(ModelAndView mandv,Model model,HttpServletRequest req) {
+		String id=req.getParameter("id");
+		System.out.println(id);
+		adminService.deleteTransaction(Integer.parseInt(id));
+		
+		mandv.setViewName("modifybill");
+		return mandv;
+	}
+	@RequestMapping("getinvoice")
+	public ModelAndView showinvoice(ModelAndView mandv,HttpServletRequest req) {
+		String id=req.getParameter("id");
+		
+		List<ItemTransactionDTO>translist=managerService.getReportByInvno(Integer.parseInt(id));
+		
+		List<ItemDetailsDTO> itemlist=new ArrayList<>();
+		List<InvoiceMasterDTO> invoicelist=new ArrayList<>();
+		
+		ListIterator iterator2 = translist.listIterator();
+		int custid=0;
+		LocalDate date=LocalDate.of(2016, 9, 23);
+		while(iterator2.hasNext()) {
+		
+			ItemTransactionDTO itr=(ItemTransactionDTO)iterator2.next();
+			
+			InvoiceMasterDTO inv=itr.getInvoiceMasterDTO();
+			
+			date=inv.getInvDate();
+			UserDetailsDTO user=inv.getUserDetailsDTO();
+			
+			custid=user.getUid();
+			
+			
+		}
+		mandv.addObject("date",date);
+		mandv.addObject("invid",id);
+		mandv.addObject("custid",custid);
+		mandv.addObject("itemtrancs",translist);
+		mandv.setViewName("modifybill");
+		return mandv;
+	}
+	@RequestMapping(value="modifybill", method=RequestMethod.GET)
+	public ModelAndView modifybill(ModelAndView mandv,Model model) {
+		mandv.setViewName("modifybill");
+		return mandv;	
 	}
 	
 	

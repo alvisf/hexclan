@@ -75,7 +75,6 @@ public class InvoiceMasterDAOImpl implements InvoiceMasterDAO,Cloneable{
 		
 		Criteria criteria=session.createCriteria(InvoiceMasterDTO.class);
 		List<InvoiceMasterDTO> invoices=criteria.list();
-		
 		return invoices;
 }
 	
