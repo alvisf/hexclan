@@ -61,7 +61,6 @@ public class LoginController {
 		if(userService.checkUser(user.getUname(),user.getUpass())){
 			if(userService.checkLogin(user.getUname())) {
 				user = userService.getUser(user.getUname());
-				
 				String role=user.getRole();
 				int uid=user.getUid();
 				user.setUid(uid);
@@ -95,10 +94,7 @@ public class LoginController {
 					return mandv;
 					
 				case "customer":
-					
-					
 					mandv.addObject("user",user);
-					
 					mandv.setViewName("redirect:/login/home");
 					return mandv;
 				default:
@@ -106,22 +102,46 @@ public class LoginController {
 				}
 			}
 			else {
-				mandv.setViewName("already");
-				return mandv;
+				user = userService.getUser(user.getUname());
+				String role=user.getRole();
+				int uid=user.getUid();
+				user.setUid(uid);
+				HttpSession session = request.getSession();
+				session.setAttribute("uname", user.getUname());
+				session.setAttribute("uid", uid);
+				session.setAttribute("cartUpdateFlag", false);
+				userService.updateLogin(user.getUname(), 1);
+				HashMap<Integer,Integer> selecteditems=new HashMap<Integer, Integer>();
+				session.setAttribute("selecteditems", selecteditems);
+				mandv.addObject("user",user);
+				
+				switch(role) {
+					case "customer":
+						mandv.setViewName("already");
+						return mandv;
+					case "admin":
+						mandv.setViewName("alreadyAdmin");
+						return mandv;
+					case "manager":
+						mandv.setViewName("alreadyManager");
+						return mandv;
+					default:
+						return null;
+				}
 			}
 		}
 		else {
 			mandv.setViewName("redirect:/register/loadForm");
 			return mandv;
 		}
-		}
+	}
 	
 	@RequestMapping(value="gotoregForm", method=RequestMethod.GET)
 	public String goToReg(ModelAndView mandv) {
 		return "redirect:/register/loadForm";
 	}
 	
-	 @RequestMapping(value="logout", method= {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="logout", method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView logout(ModelAndView mandv,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String uname = (String)session.getAttribute("uname");
