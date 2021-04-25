@@ -1,19 +1,114 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://www.springframework.org/tags/form"
-	prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+    <%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>
+        <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+            <!DOCTYPE html>
+            <html>
 
-<head>
-    <title>Payment</title>
+            <head>
+                <title>Payment</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+        crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Signika:300" rel="stylesheet">
     <style>
+        /* Common CSS */
+        :root {
+            --input-padding-x: 1.5rem;
+            --input-padding-y: 0.75rem;
+        }
+
+        body {
+            font-family: 'Signika', Sans-Serif;
+            background-color: #F1F1E6;
+        }
+
+        h1 {
+            font-family: 'Anton', Sans-Serif;
+        }
+
+        .brand-text {
+            font-family: 'Anton', Sans-Serif;
+            font-size: 25px;
+        }
+
+        .accent-color {
+            color: #2D4A6B;
+        }
+
+        .main-heading {
+            font-weight: bold;
+        }
+
+        .btn-main {
+            font-size: 0.9rem;
+            letter-spacing: 0.05rem;
+            padding: 0.75rem 1rem;
+            border-radius: .25rem;
+            color: white;
+            background-color: #2D4A6B;
+        }
+
+        .btn-main:hover {
+            color: white;
+            background-color: #5389A8;
+        }
+
+        .logout {
+            font-size: 0.8rem;
+            letter-spacing: 0.05rem;
+            padding: 0.5rem;
+            border-radius: .25rem;
+            color: white;
+            background-color: #2D4A6B;
+            text-transform: uppercase;
+        }
+
+        .logout:hover {
+            color: white;
+            background-color: #5389A8;
+        }
+
+        .nav-username {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bolder;
+            margin: auto;
+        }
+
+        .form-icon {
+            text-align: center;
+            font-family: "Signika", Sans-Serif;
+            font-size: 16px;
+            color: black;
+            margin: auto;
+        }
+
+        .cart {
+            font-size: larger;
+        }
+
+        .cart:hover {
+            color: #2D4A6B;
+        }
+
+        .caption {
+            font-size: 15px;
+        }
+
+        /* Common CSS End */
+
         .payment-form {
             padding-bottom: 50px;
             font-family: 'Montserrat', sans-serif;
@@ -49,11 +144,11 @@
         .payment-form .block-heading h2,
         .payment-form .block-heading h3 {
             margin-bottom: 1.2rem;
-            color: #3b99e0;
+            color: #2D4A6B;
         }
 
-        .payment-form form {
-            border-top: 2px solid #5ea4f3;
+        .payment-form {
+            /* border-top: 2px solid #2D4A6B; */
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
             background-color: #ffffff;
             padding: 0;
@@ -93,35 +188,48 @@
         }
 
         .payment-form .products .price {
+            font-family: 'Signika', Sans-Serif;
             float: right;
             font-weight: 600;
             font-size: 0.9em;
         }
 
         .payment-form .products .total {
+            font-family: 'Signika', Sans-Serif;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             margin-top: 10px;
             padding-top: 19px;
-            font-weight: 600;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .payment-form .products .subtotal {
+            font-family: 'Signika', Sans-Serif;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            padding-top: 19px;
             line-height: 1;
         }
 
         .payment-form .card-details {
+            font-family: 'Signika', Sans-Serif;
             padding: 25px 25px 15px;
         }
 
         .payment-form .card-details label {
+            font-family: 'Signika', Sans-Serif;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 400;
             margin-bottom: 15px;
             color: #79818a;
             text-transform: uppercase;
         }
 
         .payment-form .card-details button {
+            font-family: 'Signika', Sans-Serif;
             margin-top: 0.6em;
             padding: 12px 0;
-            font-weight: 600;
+            /* font-weight: 400; */
         }
 
         .payment-form .date-separator {
@@ -155,104 +263,77 @@
                 margin-top: 2em;
             }
         }
+
+        .btn-close {
+            background-color: #D0110F;
+            width: 8.8rem;
+            color: white;
+        }
+
+        .btn-close:hover {
+            background-color: rgba(210, 18, 15, 0.9);
+            color: white;
+        }
     </style>
-</head>
+            </head>
 
-<body>
-    <main class="page payment-page">
-        <section class="payment-form dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2>Payment</h2>
-                    <p>Complete your order.</p>
-                </div>
-                <form>
-                    <div class="products">
-                        <h3 class="title">Checkout</h3>
-                        <c:forEach items="${items.keySet()}" var="item">
-	                        <div class="item">
-	                            <!-- <span class="price">${item.getItemPrice()}</span> -->
-	                            <p class="item-name">${item.getItemDesc()}</p>
-	                            <p class="item-description">${item.getItemCategory()}</p>
-	                        </div>
-                        </c:forEach>
-                        <div class="total">Total<span class="price">Rs. ${total}</span></div>
-                    </div>
-                    <div class="card-details">
-                        <!-- <h3 class="title">Credit Card Details</h3>
-                        <div class="row">
-                            <div class="form-group col-sm-7">
-                                <label for="card-holder">Card Holder</label>
-                                <input id="card-holder" type="text" class="form-control" placeholder="Card Holder"
-                                    aria-label="Card Holder" aria-describedby="basic-addon1">
+            <body>
+                <main class="page payment-page">
+                    <section class="payment-form dark">
+                        <div class="container">
+                            <div class="block-heading">
+                                <h1>Payment</h1>
+                                <p>Complete your order.</p>
                             </div>
-                            <div class="form-group col-sm-5">
-                                <label for="">Expiration Date</label>
-                                <div class="input-group expiration-date">
-                                    <input type="text" class="form-control" placeholder="MM" aria-label="MM"
-                                        aria-describedby="basic-addon1">
-                                    <span class="date-separator">/</span>
-                                    <input type="text" class="form-control" placeholder="YY" aria-label="YY"
-                                        aria-describedby="basic-addon1">
-                                </div>
+                            <!-- <form> -->
+                            <div class="products">
+                                <h3 class="title">Checkout</h3>
+                                <c:forEach items="${items.keySet()}" var="item">
+                                    <div class="item">
+                                        <!-- <span class="price">${item.getItemPrice()}</span> -->
+                                        <span class="price">
+                                            <img src=<c:out value='${item.getImgurl()}' /> class="img-fluid" style="width: 55px; height: 55px;">
+                                        </span>
+                                        <p class="item-name">${item.getItemDesc()}</p>
+                                        <p class="item-description">${item.getItemCategory()}</p>
+                                    </div>
+                                </c:forEach>
+                                <hr>
+                                <div class="subtotal">Subtotal<span class="price">Rs. ${total}</span></div>
+                                <div class="subtotal">Discount<span class="price">Rs. 0</span></div>
+                                <div class="subtotal">Shipping<span class="price">Rs. 0</span></div>
+                                <div class="total">Total<span class="price">Rs. ${total}</span></div>
                             </div>
-                            <div class="form-group col-sm-8">
-                                <label for="card-number">Card Number</label>
-                                <input id="card-number" type="text" class="form-control" placeholder="Card Number"
-                                    aria-label="Card Holder" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="cvc">CVC</label>
-                                <input id="cvc" type="text" class="form-control" placeholder="CVC"
-                                    aria-label="Card Holder" aria-describedby="basic-addon1">
-                            </div> -->
-                            
-                            
-                            <!-- GO TO THANK YOU SCREEN
-                            <spring:form modelAttribute="user" method="post" >
-                            <div class="form-group col-sm-12">
-                                <a href="paymentSuccess" style="text-decoration: none;">
-                                	<button type="button" class="btn btn-primary btn-block">Confirm Payment</button>
-                                </a>
-                            </div>
-                            </spring:form> -->
-                            
-                            <!-- GO BACK TO CART -->
-                            <spring:form modelAttribute="user" method="post">
-                            <div class="form-group col-sm-12">
-                                <a href="cart" style="text-decoration: none;">
-                                	<button type="button" class="btn btn-danger btn-block">Cancel</button>
-                                </a>
-                            </div>
-                            </spring:form>
-                            <form action="redirectToServices" method="POST">
-                                <script
-                                    src="https://checkout.razorpay.com/v1/checkout.js"
-                                    data-key="rzp_test_uwFPahVNP7SemQ" 
-                                    data-amount="${amt}" 
-                                    data-currency="INR"
-                                    data-order_id="${order_id}"
-                                    data-buttontext="Pay with Razorpay"
-                                    data-name="Acme Corp"
-                                    data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
-                                    data-image="https://example.com/your_logo.jpg"
-                                    data-prefill.name="Gaurav Kumar"
-                                    data-prefill.email="gaurav.kumar@example.com"
-                                    data-theme.color="#F37254"
-                                    
-                                    
-                                ></script>
-                                <input type="hidden" class="btn btn-primary btn-block" custom="Hidden Element" name="hidden">
+                            <div class="card-details">
+                                <form action="redirectToServices" method="POST">
+                                    <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                        data-key="rzp_test_uwFPahVNP7SemQ" data-amount="${amt}" data-currency="INR"
+                                        data-order_id="${order_id}" data-buttontext="Pay with Razorpay"
+                                        data-name="Acme Corp"
+                                        data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
+                                        data-image="https://example.com/your_logo.jpg" data-prefill.name="Gaurav Kumar"
+                                        data-prefill.email="gaurav.kumar@example.com"
+                                        data-theme.color="#F37254"></script>
+                                    <input type="hidden" class="btn btn-primary btn-block" custom="Hidden Element"
+                                        name="hidden">
                                 </form>
+                                <!-- GO BACK TO CART -->
+                                <spring:form modelAttribute="user" method="post">
+                                    <div class="form-group col-sm-12 p-0">
+                                        <a href="showCart" style="text-decoration: none;">
+                                            <button type="button" class="btn btn-close btn-block p-1">Cancel</button>
+                                        </a>
+                                    </div>
+                                </spring:form>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-        </section>
-    </main>
-</body>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
+                        <!-- </form> -->
+                        </div>
+                    </section>
+                </main>
+            </body>
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            </body>
 
-</html>
+            </html>

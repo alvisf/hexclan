@@ -208,27 +208,31 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light">
-		<a class="navbar-brand brand-text" href="home"><span class="accent-color">One Stop</span> Shop</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+        <a class="navbar-brand brand-text" href="home"><span class="accent-color">One Stop</span>
+            Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="home">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Products</a>
-				</li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0" action="logout">
-				<p class="mr-sm-2 nav-username pr-2">Hey, ${user.getUname()}</p>
-				<button class="btn logout my-2 my-sm-0" type="submit">Logout</button>
-			</form>
-		</div>
-	</nav>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="home">Inventory <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/itemcontrol/add">Add Item</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/itemcontrol/modifybill">Edit Invoice</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="logout">
+                <p class="mr-sm-2 nav-username pr-2">Hello, ${user.getUname()}</p>
+                <button class="btn logout my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
 	<div class="edit-form">
 		<spring:form modelAttribute="itemmodel" method="post" action="edittedditem">
 			<div class="col-sm text-center mt-4">
