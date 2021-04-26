@@ -149,12 +149,10 @@ public class ItemController {
 	}
 	@RequestMapping(value="modifybillitem", method=RequestMethod.POST)
 	public ModelAndView modifybillitem(ModelAndView mandv,Model model,HttpServletRequest req) {
-		
 		String id=req.getParameter("id");
-	
-		//System.out.println(id);
+		System.out.println(id);
 		String qty=req.getParameter(id);
-		//System.out.println(qty);
+		System.out.println(qty);
 		adminService.updateqty(Integer.parseInt(id), Integer.parseInt(qty));
 		mandv.setViewName("modifybill");
 		return mandv;

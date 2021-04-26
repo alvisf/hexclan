@@ -273,9 +273,9 @@
                                         </td>
                                         <td>
                                             <div class="img-container">
-                                                <img src=<c:out value='${item.getImgurl()}' />
-                                                style="width: 50%">
-                                            </div>
+												<img src=<c:out value='${item.getImgurl()}' />
+												style="width: 100px; height: 100px;">
+											</div>
                                         </td>
                                         <td class="text-left"><span>${item.getItemDesc()}</span>
                                         </td>
@@ -310,7 +310,7 @@
                         </table>
                         <div class="col-sm w-25 mb-3 mt-3" style="margin: auto">
                             <button type="submit" class="btn btn-block my-2 my-sm-0 btn-main"
-                                formaction="/itemcontrol/add">Add Items</button>
+                                formaction="/itemcontrol/add">Add Item</button>
                         </div>
                     </div>
                 </div>

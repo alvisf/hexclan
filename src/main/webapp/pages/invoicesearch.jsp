@@ -181,19 +181,19 @@
 									<td>
 										<div class="img-container">
 											<img src=<c:out value='${itemtranc.getItemDetailsDTO().getImgurl()}' />
-											alt="...">
+											alt="..." style="width: 100px; height: 100px;">
 										</div>
 									</td>
-									<td class="text-right">
+									<td class="text-left">
 										<span>${itemtranc.getItemDetailsDTO().getItemDesc()}</span>
 									</td>
-									<td class="text-right">
+									<td class="text-left">
 										<span>${itemtranc.getItemDetailsDTO().getItemCategory()}</span>
 									</td>
-									<td class="text-right">
+									<td class="text-left">
 										<span>${itemtranc.getItemQuantity()}</span>
 									</td>
-									<td class="text-right">
+									<td class="text-left">
 										<span>${itemtranc.getItemDetailsDTO().getItemPrice()}</span>
 									</td>
 								</tr>

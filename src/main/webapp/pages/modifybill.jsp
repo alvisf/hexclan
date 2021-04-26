@@ -218,7 +218,7 @@
         /* Common CSS End */
     </style>
     <meta charset="ISO-8859-1">
-    <title>Search Invoice</title>
+    <title>Edit Invoice</title>
 </head>
 
 <body>
@@ -250,94 +250,108 @@
     </nav>
 
     <div class="container">
-        <form method="post">
-            <div class="row mt-3 justify-content-center align-items-center">
-                <div class="col-lg-10 col-md-10 ml-auto mr-auto">
-                    <div class="col-sm text-center mt-2">
-                        <h1><span class="accent-color">Edit</span> Invoice</h1>
-                        <p class="accent-color">Enter invoice ID to edit or delete invoice.</p>
-                    </div>
-                    <hr>
-                    <div class="table-responsive">
-                        <spring:form modelAttribute="itemdet" method="post" action="/itemcontrol/getinvoice">
-                            <div class="flex inline-block">
-                                <div>
-                                    <input name="id" type="text" style="width: fit-content; margin: 0; float: right;"
-                                        class="form-control" placeholder="Invoice ID" required="required" />
-                                    <button class="btn btn-block my-2 my-sm-0 float-right m-2 btn-main p-2"
-                                        type="submit" style="width: fit-content;">
-                                        <span><i class="icon icon-magnifier"></i></span>
-                                    </button>
-                                </div>
+        <div class="row mt-3 justify-content-center align-items-center">
+            <div class="col-lg-10 col-md-10 ml-auto mr-auto">
+                <div class="col-sm text-center mt-2">
+                    <h1><span class="accent-color">Edit</span> Invoice</h1>
+                    <p class="accent-color">Enter invoice ID to edit or delete invoice.</p>
+                </div>
+                <hr>
+                <div class="table-responsive">
+                    <spring:form modelAttribute="itemdet" method="post" action="/itemcontrol/getinvoice">
+                        <div class="flex inline-block">
+                            <div>
+                                <input name="id" type="text" style="width: fit-content; margin: 0; float: right;"
+                                    class="form-control" placeholder="Invoice ID" required="required" />
+                                <button class="btn btn-block my-2 my-sm-0 float-right m-2 btn-main p-2" type="submit"
+                                    style="width: fit-content;">
+                                    <span><i class="icon icon-magnifier"></i></span>
+                                </button>
                             </div>
-                        </spring:form>
-                        <table class="table table-shopping">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th></th>
-                                    <th>Product Image</th>
-                                    <th>Product Name</th>
-                                    <th>Category</th>
-                                    <th>Stock Quantity</th>
-                                    <th>Price</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
+                        </div>
+                    </spring:form>
+                    <table class="table table-shopping">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th></th>
+                                <th>Invoice ID</th>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                            <tbody>
+                        <tbody>
+                            <form method="post">
                                 <c:forEach items="${itemtrancs}" var="itemtranc">
                                     <tr>
                                         <td class="text-center">
                                             <div class="form-check">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="selected"
+                                                    <input class="form-check-input" type="checkbox" checked name="id"
                                                         value=<c:out value='${itemtranc.getTransactionID()}' />>
-                                                    <span class="form-check-sign">
-                                                        <span class="check"></span>
-                                                    </span>
                                                 </label>
                                             </div>
+                                        </td>
+                                        <td class="text-left">
+                                            <span>${itemtranc.getInvoiceMasterDTO().getInvNo()}</span>
                                         </td>
                                         <td>
                                             <div class="img-container">
                                                 <img src=<c:out value='${itemtranc.getItemDetailsDTO().getImgurl()}' />
-                                                style="width: 50%">
+                                                style="width: 100px; height: 100px; margin: auto;">
                                             </div>
                                         </td>
-                                        <td class="text-left"><span>${itemtranc.getItemDetailsDTO().getItemDesc()}</span>
+                                        <td class="text-left">
+                                            <span>${itemtranc.getItemDetailsDTO().getItemDesc()}</span>
                                         </td>
 
                                         <td class="text-left">
                                             <span>${itemtranc.getItemDetailsDTO().getItemCategory()}</span>
                                         </td>
 
-                                        <td class="text-left">
-                                            <span>${itemtranc.getItemQuantity()}</span>
+                                        <td class="text-right">
+                                            <span><select class="form-control" name=<c:out
+                                                    value="${itemtranc.getTransactionID()}" />>
+                                                <option value=${itemtranc.getItemQuantity()}>
+                                                    ${itemtranc.getItemQuantity()}</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                </select>
+                                            </span>
                                         </td>
 
-                                        <td class="text-left"><span>${itemtranc.getItemDetailsDTO().getItemPrice()}</span>
+                                        <td class="text-left">
+                                            <span>${itemtranc.getItemDetailsDTO().getItemPrice()}</span>
                                         </td>
 
                                         <td class="td-actions text-left">
-                                            <button type="submit" rel="tooltip"
-                                                class="btn btn-success btn-just-icon btn-sm" data-original-title=""
-                                                title="" formaction="/itemcontrol/modifybillitem">
+                                            <button type="submit" rel="tooltip" type="Add"
+                                                class="btn btn-success btn-just-icon btn-sm"
+                                                formaction="/itemcontrol/modifybillitem">
                                                 <i class="material-icons">edit</i>
                                             </button>
-                                            <button type="submit" rel="tooltip"
-                                                class="btn btn-danger btn-just-icon btn-sm" data-original-title=""
-                                                title="" formaction="/itemcontrol/deletebilltem">
+                                            <button type="submit" rel="tooltip" type="Add"
+                                                class="btn btn-danger btn-just-icon btn-sm"
+                                                formaction="/itemcontrol/deletebilltem">
                                                 <i class="material-icons">close</i>
                                             </button>
                                         </td>
+
                                     </tr>
                                 </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                            </form>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </body>
 

@@ -198,7 +198,7 @@
 										<td>
 											<div class="img-container">
 												<img src=<c:out value='${item.getImgurl()}' />
-												style="width: 50%">
+												style="width: 100px; height: 100px;">
 											</div>
 										</td>
 										<td class="text-left"><span>${item.getItemDesc()}</span>

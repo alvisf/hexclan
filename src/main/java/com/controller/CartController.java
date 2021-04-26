@@ -80,6 +80,19 @@ public class CartController {
 	public ModelAndView updatedCart(ModelAndView mandv,HttpServletRequest request,Model model){
 		HttpSession session = request.getSession();
 		HashMap<ItemDetailsDTO,Integer> finalItems = (HashMap<ItemDetailsDTO,Integer>)session.getAttribute("items");
+		
+		//**************
+		HashMap<Integer,Integer> selecteditems =(HashMap<Integer,Integer>)session.getAttribute("selecteditems");
+		System.out.println(selecteditems);
+		for (Map.Entry<Integer, Integer> set : selecteditems.entrySet()) {
+			String itemName = shoppingService.getItemName(set.getKey());
+			ItemDetailsDTO item = shoppingService.getItemByName(itemName);
+			finalItems.put(item, set.getValue());
+		}
+		
+		
+		//**************
+		
 		session.setAttribute("items", finalItems);
 		
 		String uname = (String)session.getAttribute("uname");
@@ -163,6 +176,12 @@ public class CartController {
 		model.addAttribute("orderDetails", orderDetails);
 		
 		session.setAttribute("cartUpdateFlag", true);
+		
+		//******
+		session.setAttribute("selecteditems",new HashMap<ItemDetailsDTO, Integer>());
+		
+		//******
+		
 		return mandv; 
 
 	}
